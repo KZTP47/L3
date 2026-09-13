@@ -1,0 +1,38 @@
+name: Playwright Tests
+
+# Den här filen gör att Playwright-testerna körs automatiskt i GitHub Actions.
+# Den körs när kod pushas till main/master eller när någon skapar en pull request.
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Hämtar koden från GitHub-repot.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Installerar Node.js så att npm och Playwright kan köras.
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # Installerar projektets npm-paket från package-lock.json.
+      - name: Install dependencies
+        run: npm ci
+
+      # Installerar de webbläsare och Linux-paket som Playwright behöver.
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      # Kör alla Playwright-tester i projektet.
+      - name: Run Playwright tests
+        run: npx playwright test
