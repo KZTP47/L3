@@ -23,11 +23,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          #cache: npm <---- vi har ingen package-lock.json i uppgiften, så denna ska bort
 
-      # Installerar projektets npm-paket från package-lock.json.
+      # Installerar Playwright.
+      # Uppgiften verkar sakna package.json, därför installerar vi Playwright direkt i CI.
       - name: Install dependencies
-        run: npm install
+        run: npm install --save-dev @playwright/test
 
       # Installerar de webbläsare och Linux-paket som Playwright behöver.
       - name: Install Playwright browsers
