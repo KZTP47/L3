@@ -22,7 +22,10 @@ export class BasePage {
     this.categoryMenu = page.locator('div.listbox');
 
     // Länken högst upp som öppnar varukorgen.
-    this.cartLink = page.getByRole('link', { name: /Shopping cart/ });
+    //this.cartLink = page.getByRole('link', { name: /Shopping cart/ });
+    // Vi väljer varianten med antal, t.ex. "Shopping cart (1)",
+    // så Playwright inte råkar hitta två olika cart-länkar.
+    this.cartLink = page.getByRole('link', { name: /^Shopping cart \(\d+\)$/ });
 
     // Huvudrubriken på sidan. Den används för att kontrollera att vi hamnat rätt.
     this.pageHeading = page.getByRole('heading', { level: 1 });
